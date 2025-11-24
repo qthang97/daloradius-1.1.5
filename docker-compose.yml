@@ -1,0 +1,41 @@
+version: '3.0'
+services:
+    mariadb-site1: #<--TODO EDIT
+        image: mariadb:10.4
+        container_name: mariadb-site1 #<--TODO EDIT
+        volumes:
+            - ./db:/var/lib/mysql
+        environment:
+            TZ: "Asia/Ho_Chi_Minh"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "rootpwd"
+            MYSQL_USER: 'radius'
+            MYSQL_PASSWORD: 'RadiusPass'
+            MYSQL_DATABASE: 'radiusdb'
+        ports:
+            - '33063:3306'
+        restart: unless-stopped
+    radius-site1:  #<--TODO EDIT
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        container_name: radius-site1 #<--TODO EDIT
+        environment:
+           TZ: "Asia/Ho_Chi_Minh"
+           MYSQL_HOST: "mariadb-site1" #<--TODO EDIT
+           MYSQL_PORT: "3306"
+           MYSQL_DATABASE: "radiusdb"
+           MYSQL_USER: "radius"
+           MYSQL_PASSWORD: "RadiusPass"
+           MYSQL_ROOT_PASSWORD: "rootpwd"
+        ports:
+            - '8080:80' #<--TODO EDIT
+            - '18133:1813/udp' #<--TODO EDIT
+            - '18123:1812/udp' #<--TODO EDIT
+        depends_on:
+            - 'mariadb-site1'  #<--TODO EDIT
+        volumes:
+            - ./freeradius/clients.conf:/etc/freeradius/3.0/clients.conf
+            - ./custompage/mng-import-users.php:/var/www/html/daloradius/mng-import-users.php
+            - ./custompage/mng-del.php:/var/www/html/daloradius/mng-del.php
+        restart: unless-stopped
