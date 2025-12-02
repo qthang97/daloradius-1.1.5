@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # ================= CONFIGURATION (EDIT THIS PART) =================
-CONTAINER_NAME="e8180a2c50bb" # Docker container name
 DB_USER="radius"              # Database user
 DB_PASS="RadiusPass"          # Database password
 DB_NAME="radiusdb"            # Database name
@@ -11,9 +10,12 @@ LOG_FILE="/home/thangnq5/backup_mariadb/scripts/logs/remove_postauth.log"
 NUM_YEAR_WANT_KEEP=1
 # =================================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 log() {
+    LOG_DIR="${SCRIPT_DIR}/logs"
+    [ ! -d "$LOG_DIR" ] && mkdir -p "$LOG_DIR"
     echo "$(date +"%Y-%m-%d %H:%M:%S") : $1"
-    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_FILE"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_DIR/$LOG_FILE"
 }
 
 cleanup_mysql_data() {
@@ -69,6 +71,7 @@ cleanup_mysql_data() {
 
 # --- CÁCH SỬ DỤNG ---
 
+CONTAINER_NAME="e8180a2c50bb" # Docker container name
 # Cách 1: Truyền tên container (Dùng biến NUM_YEAR_WANT_KEEP global)
 cleanup_mysql_data "$CONTAINER_NAME"
 
