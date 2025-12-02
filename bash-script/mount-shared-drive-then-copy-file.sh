@@ -7,11 +7,15 @@ PASSWORD="Hcm@1234"
 SRC_PATH="/home/thangnq5/backup_mariadb/bk/"
 DES_PATH="/home/thangnq5/backup_mariadb/folder_share/"
 FOLDER_SHARE_SRC_PATH="//${IP_SRV}/Share/Thangnq5/Radius_bk"
-LOG_FILE="/home/thangnq5/backup_mariadb/scripts/logs/rsync.log"
+LOG_FILE="rsync.log"
 # =================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 log() {
-  echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >>"$LOG_FILE"
+    LOG_DIR="${SCRIPT_DIR}/logs"
+    [ ! -d "$LOG_DIR" ] && mkdir -p "$LOG_DIR"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_DIR/$LOG_FILE"
 }
 
 fun_MountFolder() {
