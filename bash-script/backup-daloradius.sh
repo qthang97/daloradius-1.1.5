@@ -9,12 +9,15 @@ DB_USER="radius"     # Database user
 DB_PASS="RadiusPass" # Database password
 DB_NAME="radiusdb"   # Database name
 PATH_BACKUP="/home/thangnq5/backup_mariadb/bk/"
-LOG_FILE="/home/thangnq5/backup_mariadb/scripts/logs/backup_sql_docker.log"
+LOG_FILE="backup_sql_docker.log"
 # ====================================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 log() {
+    LOG_DIR="${SCRIPT_DIR}/logs"
+    [ ! -d "$LOG_DIR" ] && mkdir -p "$LOG_DIR"
     echo "$(date +"%Y-%m-%d %H:%M:%S") : $1"
-    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_FILE"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_DIR/$LOG_FILE"
 }
 
 fun_CreateBackup() {
