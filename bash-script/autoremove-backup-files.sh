@@ -3,12 +3,15 @@
 # ================= CONFIGURATION (EDIT THIS PART) =================
 PATH_BACKUP="/home/thangnq5/backup_mariadb/bk/"
 NUM_FILE_WANT_KEEP=6
-LOG_FILE="/home/thangnq5/backup_mariadb/scripts/logs/autoremove-old-backup-files.log"
+LOG_FILE="autoremove-old-backup-files.log"
 # ====================================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 log() {
-  echo "$(date +"%Y-%m-%d %H:%M:%S") : $1"
-  echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >>"$LOG_FILE"
+    LOG_DIR="${SCRIPT_DIR}/logs"
+    [ ! -d "$LOG_DIR" ] && mkdir -p "$LOG_DIR"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1"
+    echo "$(date +"%Y-%m-%d %H:%M:%S") : $1" >> "$LOG_DIR/$LOG_FILE"
 }
 
 if [ ! -d "$PATH_BACKUP" ]; then
