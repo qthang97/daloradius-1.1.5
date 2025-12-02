@@ -59,4 +59,4 @@ fun_CreateBackup() {
 
 # Run backup
 fun_CreateBackup "$CONTAINER_NAME_OR_ID_MOBILE" "$BACKUP_NAME_MOBILE"
-# fun_CreateBackup "$CONTAINER_NAME_OR_ID_LAPTOP" "$BACKUP_NAME_LAPTOP"
+fun_CreateBackup "$CONTAINER_NAME_OR_ID_LAPTOP" "$BACKUP_NAME_LAPTOP"
